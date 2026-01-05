@@ -1,0 +1,5 @@
+{
+  "name": "Advanced PDF to Image Converter",
+  "description": "Convert multiple PDF files or entire folders to high-quality images directly in your browser. Privacy-first local processing.",
+  "requestFramePermissions": []
+}
