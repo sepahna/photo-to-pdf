@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="صفحه نمونه HTML با طراحی مدرن و پشتیبانی از زبان فارسی">
+  <title>صفحه HTML نمونه</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: rgba(148, 163, 184, 0.2);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 5rem 1.5rem 4rem;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.25), transparent 45%),
+        radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.2), transparent 40%);
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.125rem;
+      max-width: 36rem;
+      margin: 0 auto 2.5rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    main {
+      padding: 0 1.5rem 4rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-soft);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card h2 {
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .contact {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+
+    .contact h2 {
+      margin-bottom: 1.25rem;
+      font-size: 1.25rem;
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+      color: var(--muted);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: var(--muted);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        padding-top: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <span class="badge">صفحه HTML نمونه</span>
+      <h1>به صفحه HTML خوش آمدید</h1>
+      <p class="subtitle">
+        این یک صفحه وب مستقل با طراحی مدرن، پشتیبانی کامل از راست‌به‌چپ و فونت فارسی است.
+      </p>
+      <div class="actions">
+        <a href="#features" class="btn btn-primary">مشاهده ویژگی‌ها</a>
+        <a href="#contact" class="btn btn-secondary">تماس با ما</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="features" class="grid">
+      <article class="card">
+        <div class="card-icon">🎨</div>
+        <h2>طراحی مدرن</h2>
+        <p>رابط کاربری تمیز با رنگ‌بندی تیره و افکت‌های گرادیانی ظریف.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">📱</div>
+        <h2>واکنش‌گرا</h2>
+        <p>در موبایل، تبلت و دسکتاپ به‌خوبی نمایش داده می‌شود.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">🔤</div>
+        <h2>فارسی و RTL</h2>
+        <p>با فونت وزیرمتن و جهت راست‌به‌چپ برای خوانایی بهتر.</p>
+      </article>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2>فرم تماس</h2>
+      <form id="contactForm">
+        <div>
+          <label for="name">نام</label>
+          <input type="text" id="name" name="name" placeholder="نام خود را وارد کنید" required>
+        </div>
+        <div>
+          <label for="email">ایمیل</label>
+          <input type="email" id="email" name="email" placeholder="example@email.com" required>
+        </div>
+        <div>
+          <label for="message">پیام</label>
+          <textarea id="message" name="message" placeholder="پیام خود را بنویسید..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">ارسال پیام</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>ساخته‌شده با HTML، CSS و JavaScript — ۱۴۰۵</p>
+  </footer>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      alert('سلام ' + name + '! پیام شما با موفقیت ثبت شد.');
+      this.reset();
+    });
+  </script>
+</body>
+</html>
