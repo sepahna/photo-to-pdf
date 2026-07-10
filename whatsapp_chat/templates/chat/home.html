@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}گفتگوها - واتساپ چت{% endblock %}
+
+{% block content %}
+<div class="app-container">
+    <aside class="sidebar">
+        <header class="sidebar-header">
+            <div class="user-info">
+                <div class="avatar">{{ request.user.display_name|first }}</div>
+                <span class="user-name">{{ request.user.display_name }}</span>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" id="btn-requests" title="درخواست‌های مخاطب">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
+                    </svg>
+                    {% if pending_count > 0 %}
+                    <span class="badge">{{ pending_count }}</span>
+                    {% endif %}
+                </button>
+                <button class="icon-btn" id="btn-add-contact" title="افزودن مخاطب">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </button>
+                <a href="{% url 'accounts:logout' %}" class="icon-btn" title="خروج">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                    </svg>
+                </a>
+            </div>
+        </header>
+        <div class="search-bar">
+            <input type="text" placeholder="جستجو یا گفتگوی جدید" id="search-input">
+        </div>
+        <div class="chat-list">
+            {% for item in chat_list %}
+            <a href="{% url 'chat:chat_room' item.contact.id %}" class="chat-item" data-name="{{ item.contact.display_name }}">
+                <div class="avatar">{{ item.contact.display_name|first }}</div>
+                <div class="chat-item-content">
+                    <div class="chat-item-top">
+                        <span class="chat-name">{{ item.contact.display_name }}</span>
+                        {% if item.last_message %}
+                        <span class="chat-time">{{ item.last_message.timestamp|time:"H:i" }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="chat-item-bottom">
+                        {% if item.last_message %}
+                        <span class="last-message">
+                            {% if item.last_message.sender == request.user %}<span class="you">شما: </span>{% endif %}
+                            {{ item.last_message.content|truncatechars:40 }}
+                        </span>
+                        {% else %}
+                        <span class="last-message text-muted">شروع گفتگو</span>
+                        {% endif %}
+                        {% if item.unread_count > 0 %}
+                        <span class="unread-badge">{{ item.unread_count }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            {% empty %}
+            <div class="empty-state">
+                <p>هنوز گفتگویی ندارید</p>
+                <p class="text-muted">با دکمه + مخاطب جدید اضافه کنید</p>
+            </div>
+            {% endfor %}
+        </div>
+    </aside>
+    <main class="main-panel">
+        <div class="welcome-screen">
+            <svg viewBox="0 0 24 24" width="80" height="80" fill="#25D366" opacity="0.5">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            <h2>واتساپ چت وب</h2>
+            <p>یک مخاطب را انتخاب کنید یا با دکمه + مخاطب جدید اضافه کنید</p>
+        </div>
+    </main>
+</div>
+
+<!-- Modal: Add Contact -->
+<div class="modal" id="modal-add-contact">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>افزودن مخاطب جدید</h3>
+            <button class="modal-close" data-close="modal-add-contact">&times;</button>
+        </div>
+        <form method="post" action="{% url 'chat:add_contact' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>شماره تلفن مخاطب</label>
+                <input type="text" name="phone_number" class="form-input" placeholder="09123456789" dir="ltr" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">ارسال درخواست</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal: Pending Requests -->
+<div class="modal" id="modal-requests">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>درخواست‌های مخاطب</h3>
+            <button class="modal-close" data-close="modal-requests">&times;</button>
+        </div>
+        <div class="requests-list">
+            {% for req in pending_requests %}
+            <div class="request-item">
+                <div class="avatar">{{ req.from_user.display_name|first }}</div>
+                <div class="request-info">
+                    <span class="request-name">{{ req.from_user.display_name }}</span>
+                    <span class="request-phone" dir="ltr">{{ req.from_user.phone_number }}</span>
+                </div>
+                <div class="request-actions">
+                    <form method="post" action="{% url 'chat:accept_contact' req.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-accept" title="پذیرفتن">✓</button>
+                    </form>
+                    <form method="post" action="{% url 'chat:reject_contact' req.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-reject" title="رد کردن">✕</button>
+                    </form>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted text-center">درخواست جدیدی وجود ندارد</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/app.js"></script>
+{% endblock %}
