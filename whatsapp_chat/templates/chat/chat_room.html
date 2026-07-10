@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ contact.display_name }} - واتساپ چت{% endblock %}
+
+{% block content %}
+<div class="app-container chat-active">
+    <aside class="sidebar sidebar-mini">
+        <header class="sidebar-header">
+            <a href="{% url 'chat:home' %}" class="icon-btn" title="بازگشت">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+            </a>
+        </header>
+    </aside>
+    <main class="chat-panel">
+        <header class="chat-header">
+            <div class="avatar">{{ contact.display_name|first }}</div>
+            <div class="chat-header-info">
+                <span class="chat-name">{{ contact.display_name }}</span>
+                <span class="chat-status" id="connection-status">در حال اتصال...</span>
+            </div>
+        </header>
+        <div class="messages-container" id="messages-container">
+            {% for msg in messages %}
+            <div class="message {% if msg.sender == request.user %}sent{% else %}received{% endif %}" data-id="{{ msg.id }}">
+                <div class="message-bubble">
+                    <p>{{ msg.content }}</p>
+                    <span class="message-time">{{ msg.timestamp|time:"H:i" }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <footer class="chat-input-area">
+            <form id="message-form" class="message-form">
+                <input type="text" id="message-input" placeholder="پیام بنویسید..." autocomplete="off">
+                <button type="submit" class="send-btn" title="ارسال">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                </button>
+            </form>
+        </footer>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const CONTACT_ID = {{ contact.id }};
+    const CURRENT_USER_ID = {{ request.user.id }};
+</script>
+<script src="/static/js/chat.js"></script>
+{% endblock %}
